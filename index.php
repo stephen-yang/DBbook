@@ -83,6 +83,18 @@ $column_th_array = [
 file_put_contents($dbdoc_path_perfix . 'README.md', '# 数据库文档' . PHP_EOL . PHP_EOL);
 file_put_contents($dbdoc_path_perfix . 'README.md', '更新时间: ' . date('Y-m-d H:i:s', time()) . PHP_EOL . PHP_EOL, FILE_APPEND);
 
+// book.json
+$book_json = '{
+    "plugins": [
+        "-sharing",
+        "-lunr",
+        "-search",
+        "search-pro"
+    ]
+}';
+
+file_put_contents($dbdoc_path_perfix . 'book.json', $book_json);
+
 // gitbook SUMMARY.md 标题
 file_put_contents($dbdoc_path_perfix . 'SUMMARY.md', '# Summary' . PHP_EOL . PHP_EOL);
 
