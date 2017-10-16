@@ -1,7 +1,7 @@
 <?php
-$dbhost = "121.41.110.237";
-$dbname = "root";
-$dbpass = "root.123";
+$dbhost = "192.168.170.24";
+$dbname = "devpadmin";
+$dbpass = "1234568";
 $dbdatabase = "dadaabc";
 $dbdoc_path_perfix = './dbbook/';
 $dbdoc_path = $dbdoc_path_perfix . $dbdatabase . '/';
