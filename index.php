@@ -1,10 +1,14 @@
 <?php
-$dbhost = "192.168.170.24";
-$dbname = "devpadmin";
-$dbpass = "1234568";
-$dbdatabase = "dadaabc";
+
+$config = include './config.php';
+
+$host = $config['host'];
+$port = $config['port'];
+$username = $config['username'];
+$password = $config['password'];
+$database = $config['database'];
 $dbdoc_path_perfix = './dbbook/';
-$dbdoc_path = $dbdoc_path_perfix . $dbdatabase . '/';
+$dbdoc_path = $dbdoc_path_perfix . $database . '/';
 
 // 创建文件夹
 function mkdirs($dir, $mode = 0777)
@@ -20,10 +24,10 @@ function mkdirs($dir, $mode = 0777)
 
 mkdirs($dbdoc_path);
 
-$db_connect = new mysqli($dbhost, $dbname, $dbpass, $dbdatabase);
+$db_connect = new mysqli($host, $username, $password, $database, $port);
 
 // 获取表基础信息
-$sql = 'SELECT TABLE_SCHEMA, TABLE_NAME, `ENGINE`, CREATE_TIME, TABLE_COLLATION,TABLE_COMMENT FROM information_schema.`TABLES` WHERE TABLE_SCHEMA = "' . $dbdatabase . '"';
+$sql = 'SELECT TABLE_SCHEMA, TABLE_NAME, `ENGINE`, CREATE_TIME, TABLE_COLLATION,TABLE_COMMENT FROM information_schema.`TABLES` WHERE TABLE_SCHEMA = "' . $database . '"';
 
 $result = $db_connect->query($sql);
 while ($row = mysqli_fetch_assoc($result)) {
@@ -38,7 +42,7 @@ $len = count($table_base_data);
 foreach ($table_base_data as $key => $val) {
     static $i = 1;
     echo '获取表信息' . $i . '/' . $len . "\n";
-    $sql = 'SELECT COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY,COLUMN_DEFAULT,IS_NULLABLE,COLUMN_COMMENT FROM INFORMATION_SCHEMA. COLUMNS WHERE `TABLE_SCHEMA` = "' . $dbdatabase . '" AND `TABLE_NAME` = "' . $val['TABLE_NAME'] . '"';
+    $sql = 'SELECT COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY,COLUMN_DEFAULT,IS_NULLABLE,COLUMN_COMMENT FROM INFORMATION_SCHEMA. COLUMNS WHERE `TABLE_SCHEMA` = "' . $database . '" AND `TABLE_NAME` = "' . $val['TABLE_NAME'] . '"';
     $result = $db_connect->query($sql);
     while ($row = mysqli_fetch_assoc($result)) {
         $table_column_data[$val['TABLE_NAME']][] = $row;
@@ -113,7 +117,7 @@ foreach ($table_base_data as $key => $value) {
     }
 
     // gitbook SUMMARY.md 目录
-    $summary = '* [' . $key . '](' . $dbdatabase . '/' . $key . '.md)';
+    $summary = '* [' . $key . '](' . $database . '/' . $key . '.md)';
     file_put_contents($dbdoc_path_perfix . 'SUMMARY.md', $summary . PHP_EOL, FILE_APPEND);
 
     file_put_contents($dbdoc_path . $key . '.md', $table_name . PHP_EOL);
