@@ -27,11 +27,11 @@ mkdirs($docPath);
 $connect = new mysqli($host, $username, $password, $database, $port);
 
 // 获取表基础信息
-$sql = 'SELECT TABLE_SCHEMA, TABLE_NAME, `ENGINE`, CREATE_TIME, TABLE_COLLATION,TABLE_COMMENT FROM information_schema.`TABLES` WHERE TABLE_SCHEMA = "' . $database . '"';
+$sql = 'SELECT `table_schema`, `table_name`, `engine`, `create_time`, `table_collation`, `table_comment` FROM `information_schema`.`tables` WHERE `table_schema` = "' . $database . '"';
 
 $result = $connect->query($sql);
 while ($row = mysqli_fetch_assoc($result)) {
-    $tableBaseData[$row['TABLE_NAME']] = $row;
+    $tableBaseData[$row['table_name']] = $row;
 }
 
 //file_put_contents('./table_base_data.json',json_encode($tableBaseData));
@@ -42,10 +42,10 @@ $len = count($tableBaseData);
 foreach ($tableBaseData as $key => $val) {
     static $i = 1;
     echo '获取表信息' . $i . '/' . $len . "\n";
-    $sql = 'SELECT COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY,COLUMN_DEFAULT,IS_NULLABLE,COLUMN_COMMENT FROM INFORMATION_SCHEMA. COLUMNS WHERE `TABLE_SCHEMA` = "' . $database . '" AND `TABLE_NAME` = "' . $val['TABLE_NAME'] . '"';
+    $sql = 'SELECT `column_name`, `column_type`, `column_key`, `column_default`, `is_nullable`, `column_comment` FROM `information_schema`.`columns` WHERE `table_schema` = "' . $database . '" AND `table_name` = "' . $val['table_name'] . '"';
     $result = $connect->query($sql);
     while ($row = mysqli_fetch_assoc($result)) {
-        $tableColumnData[$val['TABLE_NAME']][] = $row;
+        $tableColumnData[$val['table_name']][] = $row;
     }
     $i++;
 }
@@ -66,21 +66,21 @@ $baseTitle = '## 基础信息' . PHP_EOL;
 $columnTitle = '## 字段信息' . PHP_EOL;
 
 $baseThArray = [
-    'TABLE_SCHEMA' => '数据库',
-    'TABLE_NAME' => '表名',
-    'ENGINE' => '表引擎',
-    'CREATE_TIME' => '创建时间',
-    'TABLE_COLLATION' => '排序规则',
-    'TABLE_COMMENT' => '表注释',
+    'table_schema' => '数据库',
+    'table_name' => '表名',
+    'engine' => '表引擎',
+    'create_time' => '创建时间',
+    'table_collation' => '排序规则',
+    'table_comment' => '表注释',
 ];
 
 $columnThArray = [
-    'COLUMN_NAME' => '字段',
-    'COLUMN_TYPE' => '类型',
-    'COLUMN_KEY' => '索引',
-    'COLUMN_DEFAULT' => '默认值',
-    'IS_NULLABLE' => '是否为空',
-    'COLUMN_COMMENT' => '注释',
+    'column_name' => '字段',
+    'column_type' => '类型',
+    'column_key' => '索引',
+    'column_default' => '默认值',
+    'is_nullable' => '是否为空',
+    'column_comment' => '注释',
 ];
 
 // gitbook README.md
@@ -93,7 +93,8 @@ $bookJson = '{
         "-sharing",
         "-lunr",
         "-search",
-        "search-pro"
+        "search-pro",
+        "back-to-top-button"
     ]
 }';
 
@@ -102,7 +103,7 @@ file_put_contents($docPathPrefix . 'book.json', $bookJson);
 // gitbook SUMMARY.md 标题
 file_put_contents($docPathPrefix . 'SUMMARY.md', '# Summary' . PHP_EOL . PHP_EOL);
 
-echo "准备生成 markdown 文档...";
+echo "准备生成 Markdown 文档..." . "\n";
 
 // 表基础信息
 foreach ($tableBaseData as $key => $value) {
@@ -130,7 +131,7 @@ foreach ($tableBaseData as $key => $value) {
 // 表字段信息
 foreach ($tableColumnData as $key => $value) {
     static $j = 1;
-    echo '生成 markdown 文档 ' . $j . '/' . $len . "\n";
+    echo '生成 Markdown 文档 ' . $j . '/' . $len . "\n";
     $columnTdStr = '';
     foreach ($value as $iKey => $iValue) {
         $columnThStr = '';
@@ -146,6 +147,5 @@ foreach ($tableColumnData as $key => $value) {
     file_put_contents($docPath . $key . '.md', $columnThStr . '|' . PHP_EOL, FILE_APPEND);
     file_put_contents($docPath . $key . '.md', $columnThSplit . '|' . PHP_EOL, FILE_APPEND);
     file_put_contents($docPath . $key . '.md', $columnTdStr . PHP_EOL, FILE_APPEND);
-    file_put_contents($docPath . $key . '.md', '***' . PHP_EOL . PHP_EOL, FILE_APPEND);
     $j++;
 }
