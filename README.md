@@ -29,7 +29,7 @@
 # 目录结构
 
 ```
-|-  dbbook.php              // 主程序
+|-  index.php              // 主程序
 |-  dbbook                  // 文档存放目录
 |-  |-  README.md           // Gitbook Readme 文件
 |-  |-  SUMMARY.md          // Gitbook 目录文件
@@ -43,19 +43,27 @@
 
 # 使用方法
 
-1. 打开 `dbbook.php`, 填入你的数据库信息
+0. 生成配置文件
+   ```bash
+   cp config.php.example config.php
+   ```
+
+1. 打开 `config.php`, 填入你的数据库信息。
 
     ```
-    $dbhost = "120.0.0.1";
-    $dbname = "username";
-    $dbpass = "password";
-    $dbdatabase = "database";
+    $dbhost = '120.0.0.1';
+    $dbname = 'username';
+    $dbpass = 'password';
+    $dbdatabase = 'database';
     ```
 
 1. 运行脚本
 
-    ```
-    php -f ./dbbook.php
+    ```bash
+    chmod +x build.sh && ./build.sh
     ```
 
-1. 生成的文档会被存放在 `dbbook` 目录中, 并预留了 Gitbook 配置信息, 可以方便地制作 Gitbook 电子书.
+1. Enjoy!
+    ```
+    http://localhost:4000
+    ```
