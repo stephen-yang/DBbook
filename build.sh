@@ -1,3 +1,17 @@
 #!/usr/bin/env bash
 
-rm -rf dbbook && cnpm install gitbook-cli -g && php -f ./index.php && cd dbbook && gitbook install && gitbook build && cp -r _book/* /home/tech/www/dbbook
+FILE_PATH=$(cd "$(dirname "$0")"; pwd)
+
+yarn install
+
+export PATH=$FILE_PATH/node_modules/.bin/:$PATH
+
+rm -rf dbbook
+
+php -f ./index.php
+
+cd dbbook
+
+gitbook install
+
+gitbook serve
