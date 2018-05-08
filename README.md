@@ -67,3 +67,9 @@
     ```
     http://localhost:4000
     ```
+
+# TODO
+
+- [ ] 改造成纯 JS 项目
+- [ ] PHP 替换成 Node.js
+- [ ] npm run dev && npm run build
