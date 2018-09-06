@@ -1,9 +1,25 @@
 <?php
 
 return [
-    'host' => '127.0.0.1',
-    'port' => '3306',
-    'database' => 'database',
-    'username' => 'username',
-    'password' => 'password',
+    [
+        'host' => '127.0.0.1',
+        'port' => '3306',
+        'database' => 'database_1',
+        'username' => 'username',
+        'password' => 'password',
+    ],
+    [
+        'host' => '127.0.0.1',
+        'port' => '3306',
+        'database' => 'database_2',
+        'username' => 'username',
+        'password' => 'password',
+    ],
+    [
+        'host' => '127.0.0.1',
+        'port' => '3306',
+        'database' => 'database_3',
+        'username' => 'username',
+        'password' => 'password',
+    ],
 ];
