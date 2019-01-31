@@ -70,6 +70,8 @@
 
 # TODO
 
-- [ ] 改造成纯 JS 项目
-- [ ] PHP 替换成 Node.js
-- [ ] npm run dev && npm run build
+- [ ] ~改造成纯 JS 项目~
+- [ ] ~PHP 替换成 Node.js~
+- [ ] PHP 替换成 Golang, Node.js 是什么？Golang 拯救世界！
+- [ ] ~npm run dev && npm run build~
+- [ ] Dockerfile
