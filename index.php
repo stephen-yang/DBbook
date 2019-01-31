@@ -39,6 +39,19 @@ $bookJson = '{
 
 file_put_contents($docPathPrefix . 'book.json', $bookJson);
 
+// 重新设置边栏最大高度 覆盖 gitbook-plugin-expandable-chapters/book/expandable-chapters.css
+$websiteCss = <<< EOF
+.book .book-summary .chapter.expanded > .articles {
+    max-height: 99999px;
+}
+EOF;
+
+$websiteCssPath = $docPathPrefix . 'styles/';
+
+mkdir($websiteCssPath);
+
+file_put_contents($websiteCssPath . 'website.css', $websiteCss);
+
 foreach ($configs as $config) {
     $host = $config['host'];
     $port = $config['port'];
